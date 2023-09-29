@@ -42,6 +42,7 @@ class Clothing(models.Model):
     materials = models.ManyToManyField(Materials,  related_name="clothes")
     size = models.ManyToManyField(Size, related_name="clothes")
     designer = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="clothes")
+    image = models.ImageField(upload_to="static/images/clothing", null=True, blank=True)
 
     class Meta:
         ordering = ["name"]
