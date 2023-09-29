@@ -13,6 +13,13 @@ from catalog.views import (
     SizeCreateView,
     SizeUpdateView,
     SizeDeleteView,
+    DesignerListView,
+    DesignerDetailView,
+    DesignerCreateView,
+    DesignerUpdateView,
+    DesignerDeleteView,
+
+
 )
 urlpatterns = [
     path("", index, name="index"),
@@ -79,8 +86,30 @@ urlpatterns = [
         name="size-delete",
     ),
 
-
-
-
+    path(
+        "designer/",
+        DesignerListView.as_view(),
+        name="designer-list"
+    ),
+    path(
+        "designer/<int:pk>/",
+        DesignerDetailView.as_view(),
+        name="designer-detail"
+    ),
+    path(
+        "designer/create/",
+        DesignerCreateView.as_view(),
+        name="designer-create"
+    ),
+    path(
+        "designer/<int:pk>/update/",
+        DesignerUpdateView.as_view(),
+        name="designer-update",
+    ),
+    path(
+        "designer/<int:pk>/delete/",
+        DesignerDeleteView.as_view(),
+        name="designer-delete",
+    ),
 ]
 app_name = "catalog"

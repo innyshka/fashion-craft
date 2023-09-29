@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    Username: {{ designer.username }}
+    <a href="{% url 'catalog:material-delete' pk=designer.id %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
+
+    <a href="{% url 'catalog:designer-update' pk=designer.id %}" class="btn btn-secondary link-to-page">
+      Update
+    </a>
+  </h1>
+
+  <p><strong>First name:</strong> {{ designer.first_name }}</p>
+  <p><strong>Last name:</strong> {{ designer.last_name }}</p>
+  <p><strong>Pseudonym:</strong> {{ designer.pseudonym }}</p>
+  <p><strong>Is staff:</strong> {{ designer.is_staff }}</p>
+
+  <div class="ml-3">
+    <h4>Clothes</h4>
+
+    {% for clothing in designer.clothes.all %}
+        <hr>
+{#        <p><strong>Model:</strong> {{ car.model }}</p>#}
+{#        <p><strong>Manufacturer:</strong> {{ car.manufacturer.name }}</p>#}
+{#        <p class="text-muted"><strong>Id:</strong> {{car.id}}</p>#}
+
+    {% empty %}
+      <p>No clothes!</p>
+    {% endfor %}
+  </div>
+{% endblock %}

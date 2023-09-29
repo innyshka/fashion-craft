@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>
+      Designer List
+      <a href="{% url 'catalog:designer-create' %}" class="btn btn-primary link-to-page">
+        Create
+      </a>
+    </h1>
+  {% include "includes/search_form.html" %}
+
+    {% if designer_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Pseudonym</th>
+      </tr>
+    {% for designer in designer_list %}
+      <tr>
+        <td>{{ designer.id }}</td>
+        <td><a href="{{ designer.get_absolute_url }}">{{ designer.username }} {% if user == designer %} (Me){% endif %}</a></td>
+        <td>{{ designer.first_name }}</td>
+        <td>{{ designer.last_name }}</td>
+        <td>{{ designer.license_number }}</td>
+      </tr>
+    {% endfor %}
+
+    </table>
+    {% else %}
+      <p>There are no designers in the service.</p>
+    {% endif %}
+{% endblock %}

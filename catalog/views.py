@@ -20,6 +20,11 @@ from .models import (
 from .forms import (
     ByNameSearchForm,
     SizeForm,
+    DesignerSearchForm,
+    DesignerCreationForm,
+    DesignerUpdateForm
+
+
 )
 
 
@@ -155,3 +160,45 @@ class SizeDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Size
     success_url = reverse_lazy("catalog:size-list")
 
+
+class DesignerListView(LoginRequiredMixin, generic.ListView):
+    model = Designer
+    paginate_by = 5
+
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict:
+        context = super(DesignerListView, self).get_context_data(**kwargs)
+        username = self.request.GET.get("username", "")
+        context["username"] = username
+        context["search_from"] = DesignerSearchForm(
+            initial={"username": username}
+        )
+        return context
+
+    def get_queryset(self) -> Designer:
+        queryset = Designer.objects.all()
+        form = DesignerSearchForm(self.request.GET)
+        if form.is_valid():
+            return queryset.filter(
+                username__icontains=form.cleaned_data["username"]
+            )
+        return queryset
+
+
+class DesignerDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Designer
+
+
+class DesignerCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Designer
+    form_class = DesignerCreationForm
+
+
+class DesignerUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Designer
+    form_class = DesignerUpdateForm
+    success_url = reverse_lazy("catalog:designer-list")
+
+
+class DesignerDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Designer
+    success_url = reverse_lazy("")
