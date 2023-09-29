@@ -6,7 +6,7 @@ from catalog.models import (
     Clothing,
     Designer,
     Size,
-    Materials,
+    Material,
     ClothingType
 )
 
@@ -40,6 +40,6 @@ class DesignerAdmin(UserAdmin):
 
 admin.site.register(Size)
 admin.site.register(ClothingType)
-admin.site.register(Materials)
+admin.site.register(Material)
 admin.site.unregister(Group)
 

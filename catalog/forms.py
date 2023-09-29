@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
 
-class ClothingTypeSearchForm(forms.Form):
+class ByNameSearchForm(forms.Form):
     name = forms.CharField(
         max_length=255,
         required=False,

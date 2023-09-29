@@ -14,7 +14,7 @@ class ClothingType(models.Model):
         return self.name
 
 
-class Materials(models.Model):
+class Material(models.Model):
     name = models.CharField(max_length=100)
 
     class Meta:
@@ -39,7 +39,7 @@ class Clothing(models.Model):
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     clothing_type = models.ForeignKey(ClothingType, on_delete=models.CASCADE, related_name="clothes")
-    materials = models.ManyToManyField(Materials,  related_name="clothes")
+    materials = models.ManyToManyField(Material,  related_name="clothes")
     size = models.ManyToManyField(Size, related_name="clothes")
     designer = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="clothes")
     image = models.ImageField(upload_to="static/images/clothing", null=True, blank=True)

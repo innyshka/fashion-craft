@@ -14,11 +14,11 @@ from .models import (
     Clothing,
     Designer,
     Size,
-    Materials,
+    Material,
     ClothingType,
 )
 from .forms import (
-    ClothingTypeSearchForm
+    ByNameSearchForm
 )
 
 
@@ -47,11 +47,11 @@ class ClothingTypeListView(LoginRequiredMixin, generic.ListView):
         context = super(ClothingTypeListView, self).get_context_data(**kwargs)
         name = self.request.GET.get("name", "")
         context["name"] = name
-        context["search_from"] = ClothingTypeSearchForm(initial={"name": name})
+        context["search_from"] = ByNameSearchForm(initial={"name": name})
         return context
 
     def get_queryset(self) -> ClothingType:
-        form = ClothingTypeSearchForm(self.request.GET)
+        form = ByNameSearchForm(self.request.GET)
         queryset = ClothingType.objects.all()
         if form.is_valid():
             return queryset.filter(
@@ -75,4 +75,43 @@ class ClothingTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
 class ClothingTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = ClothingType
     success_url = reverse_lazy("catalog:clothing-type-list")
+
+
+class MaterialListView(LoginRequiredMixin, generic.ListView):
+    model = Material
+    context_object_name = "material_list"
+    paginate_by = 5
+
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict:
+        context = super(MaterialListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["name"] = name
+        context["search_from"] = ByNameSearchForm(initial={"name": name})
+        return context
+
+    def get_queryset(self) -> Material:
+        form = ByNameSearchForm(self.request.GET)
+        queryset = Material.objects.all()
+        if form.is_valid():
+            return queryset.filter(
+                name__icontains=form.cleaned_data["name"]
+            )
+        return queryset
+
+
+class MaterialCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Material
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:material-list")
+
+
+class MaterialUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Material
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:material-list")
+
+
+class MaterialDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Material
+    success_url = reverse_lazy("catalog:material-list")
 

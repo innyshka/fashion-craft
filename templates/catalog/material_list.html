@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <h1>
+    Material List
+    <a href="{% url 'catalog:material-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+  {% include "includes/search_form.html" %}
+  {% if material_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+
+      {% for material in material_list %}
+        <tr>
+          <td>
+              {{ material.id }}
+          </td>
+          <td>
+              {{ material.name }}
+          </td>
+
+          <td>
+              <a href="{% url 'catalog:material-update' pk=material.id %}">
+                Update
+              </a>
+            </td>
+            <td>
+              <a style="color: red"
+                href="{% url 'catalog:material-delete' pk=material.id %}">
+                Delete
+              </a>
+            </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+      <p>There are no material in the workshop.</p>
+  {% endif %}
+{% endblock %}

@@ -5,7 +5,10 @@ from catalog.views import (
     ClothingTypeCreateView,
     ClothingTypeUpdateView,
     ClothingTypeDeleteView,
-
+    MaterialListView,
+    MaterialCreateView,
+    MaterialUpdateView,
+    MaterialDeleteView,
 )
 urlpatterns = [
     path("", index, name="index"),
@@ -28,6 +31,27 @@ urlpatterns = [
         "clothings-types/<int:pk>/delete/",
         ClothingTypeDeleteView.as_view(),
         name="clothing-type-delete",
+    ),
+
+    path(
+        "materials/",
+        MaterialListView.as_view(),
+        name="material-list",
+    ),
+    path(
+        "materials/create",
+        MaterialCreateView.as_view(),
+        name="material-create",
+    ),
+    path(
+        "materials/<int:pk>/update/",
+        MaterialUpdateView.as_view(),
+        name="material-update",
+    ),
+    path(
+        "materials/<int:pk>/delete/",
+        MaterialDeleteView.as_view(),
+        name="material-delete",
     ),
 
 
