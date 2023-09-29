@@ -18,7 +18,8 @@ from .models import (
     ClothingType,
 )
 from .forms import (
-    ByNameSearchForm
+    ByNameSearchForm,
+    SizeForm,
 )
 
 
@@ -114,4 +115,43 @@ class MaterialUpdateView(LoginRequiredMixin, generic.UpdateView):
 class MaterialDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Material
     success_url = reverse_lazy("catalog:material-list")
+
+
+class SizeListView(LoginRequiredMixin, generic.ListView):
+    model = Size
+    context_object_name = "size_list"
+    paginate_by = 5
+
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict:
+        context = super(SizeListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["name"] = name
+        context["search_from"] = ByNameSearchForm(initial={"name": name})
+        return context
+
+    def get_queryset(self) -> Size:
+        form = ByNameSearchForm(self.request.GET)
+        queryset = Size.objects.all()
+        if form.is_valid():
+            return queryset.filter(
+                name__icontains=form.cleaned_data["name"]
+            )
+        return queryset
+
+
+class SizeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Size
+    form_class = SizeForm
+    success_url = reverse_lazy("catalog:size-list")
+
+
+class SizeUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Size
+    form_class = SizeForm
+    success_url = reverse_lazy("catalog:size-list")
+
+
+class SizeDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Size
+    success_url = reverse_lazy("catalog:size-list")
 

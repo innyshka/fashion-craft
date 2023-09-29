@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <h1>
+    Size List
+    <a href="{% url 'catalog:size-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+  {% include "includes/search_form.html" %}
+  {% if size_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+
+      {% for size in size_list %}
+        <tr>
+          <td>
+              {{ size.id }}
+          </td>
+          <td>
+              {{ size.name }}
+          </td>
+          <td>
+              {{ size.description }}
+          </td>
+          <td>
+              <a href="{% url 'catalog:size-update' pk=size.id %}">
+                Update
+              </a>
+            </td>
+            <td>
+              <a style="color: red"
+                href="{% url 'catalog:size-delete' pk=size.id %}">
+                Delete
+              </a>
+            </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+      <p>There are no size in the workshop.</p>
+  {% endif %}
+{% endblock %}

@@ -9,6 +9,10 @@ from catalog.views import (
     MaterialCreateView,
     MaterialUpdateView,
     MaterialDeleteView,
+    SizeListView,
+    SizeCreateView,
+    SizeUpdateView,
+    SizeDeleteView,
 )
 urlpatterns = [
     path("", index, name="index"),
@@ -52,6 +56,27 @@ urlpatterns = [
         "materials/<int:pk>/delete/",
         MaterialDeleteView.as_view(),
         name="material-delete",
+    ),
+
+    path(
+        "sizes/",
+        SizeListView.as_view(),
+        name="size-list",
+    ),
+    path(
+        "sizes/create",
+        SizeCreateView.as_view(),
+        name="size-create",
+    ),
+    path(
+        "sizes/<int:pk>/update/",
+        SizeUpdateView.as_view(),
+        name="size-update",
+    ),
+    path(
+        "sizes/<int:pk>/delete/",
+        SizeDeleteView.as_view(),
+        name="size-delete",
     ),
 
 
