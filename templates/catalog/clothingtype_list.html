@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <h1>
+    Clothing Type List
+    <a href="{% url 'catalog:clothing-type-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+  {% include "includes/search_form.html" %}
+  {% if clothing_type_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+
+      {% for clothing_type in clothing_type_list %}
+        <tr>
+          <td>
+              {{ clothing_type.id }}
+          </td>
+          <td>
+              {{ clothing_type.name }}
+          </td>
+
+          <td>
+              <a href="{% url 'catalog:clothing-type-update' pk=clothing_type.id %}">
+                Update
+              </a>
+            </td>
+            <td>
+              <a style="color: red"
+                href="{% url 'catalog:clothing-type-delete' pk=clothing_type.id %}">
+                Delete
+              </a>
+            </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+      <p>There are no clothing type in the workshop.</p>
+  {% endif %}
+{% endblock %}

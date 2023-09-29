@@ -1,8 +1,25 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest, HttpResponse, Http404, HttpResponseRedirect
+from django.http import (
+    HttpRequest,
+    HttpResponse,
+    Http404,
+    HttpResponseRedirect
+)
+from django.urls import reverse_lazy
+from django.views import generic
 
-from .models import Clothing, Designer, Size, Materials, ClothingType
+from .models import (
+    Clothing,
+    Designer,
+    Size,
+    Materials,
+    ClothingType,
+)
+from .forms import (
+    ClothingTypeSearchForm
+)
 
 
 @login_required
@@ -20,4 +37,42 @@ def index(request: HttpRequest) -> HttpResponse:
     }
     return render(request, "catalog/index.html", context=contex)
 
+
+class ClothingTypeListView(LoginRequiredMixin, generic.ListView):
+    model = ClothingType
+    context_object_name = "clothing_type_list"
+    paginate_by = 5
+
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict:
+        context = super(ClothingTypeListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["name"] = name
+        context["search_from"] = ClothingTypeSearchForm(initial={"name": name})
+        return context
+
+    def get_queryset(self) -> ClothingType:
+        form = ClothingTypeSearchForm(self.request.GET)
+        queryset = ClothingType.objects.all()
+        if form.is_valid():
+            return queryset.filter(
+                name__icontains=form.cleaned_data["name"]
+            )
+        return queryset
+
+
+class ClothingTypeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = ClothingType
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:clothing-type-list")
+
+
+class ClothingTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = ClothingType
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:clothing-type-list")
+
+
+class ClothingTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = ClothingType
+    success_url = reverse_lazy("catalog:clothing-type-list")
 
