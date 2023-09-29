@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
-from catalog.models import Size, Designer
+from catalog.models import Size, Designer, Clothing
 
 
 class ByNameSearchForm(forms.Form):
@@ -44,3 +44,14 @@ class DesignerUpdateForm(forms.ModelForm):
     class Meta:
         model = Designer
         fields = ("first_name", "last_name", "pseudonym", "username")
+
+
+class ClothingForm(forms.ModelForm):
+    designer = forms.ModelMultipleChoiceField(
+        queryset=get_user_model().objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+    )
+
+    class Meta:
+        model = Clothing
+        fields = "__all__"

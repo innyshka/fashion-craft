@@ -18,6 +18,12 @@ from catalog.views import (
     DesignerCreateView,
     DesignerUpdateView,
     DesignerDeleteView,
+    ClothingListView,
+    ClothingDetailView,
+    ClothingCreateView,
+    ClothingUpdateView,
+    ClothingDeleteView,
+    toggle_assign_to_clothing
 
 
 )
@@ -110,6 +116,17 @@ urlpatterns = [
         "designer/<int:pk>/delete/",
         DesignerDeleteView.as_view(),
         name="designer-delete",
+    ),
+
+    path("clothes/", ClothingListView.as_view(), name="clothing-list"),
+    path("clothes/<int:pk>/", ClothingDetailView.as_view(), name="clothing-detail"),
+    path("clothes/create/", ClothingCreateView.as_view(), name="clothing-create"),
+    path("clothes/<int:pk>/update/", ClothingUpdateView.as_view(), name="clothing-update"),
+    path("clothes/<int:pk>/delete/", ClothingDeleteView.as_view(), name="clothing-delete"),
+    path(
+        "clothes/<int:pk>/toggle-assign/",
+        toggle_assign_to_clothing,
+        name="toggle-clothing-assign",
     ),
 ]
 app_name = "catalog"

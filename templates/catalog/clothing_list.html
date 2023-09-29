@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <h1>
+    Clothing list
+    <a href="{% url 'catalog:clothing-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+{% include "includes/search_form.html" %}
+  {% if clothing_list %}
+    <ul>
+      {% for clothing in clothing_list %}
+        <li>
+          <a href="{% url "catalog:clothing-detail" pk=clothing.id %} ">{{ clothing.id }}</a>
+          {{ clothing.name }} ({{ clothing.price}} {{ clothing.clothing_type.name }})
+        </li>
+        {% if clothing.image %}
+        <p> {{ clothing.image }}</p>
+        <img src="{{ clothing.image.url }}" alt="{{ clothing.name }}" width="200">
+        {% endif %}
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no clothes in workshop</p>
+  {% endif %}
+{% endblock %}
