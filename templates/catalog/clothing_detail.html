@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <p>Clothing Type: ({{ clothing.clothing_type.name }})</p>
+  <p>Material: </p>
+  {% for material in clothing.materials.all %}
+    <li>{{ material.name }}</li>
+  {% endfor %}
+
+  <p>Size:</p>
+  {% for size in clothing.size.all %}
+    <li>{{ size.name }}</li>
+  {% endfor %}
+  <h1>Designer
+
+   {% if clothing in user.clothes.all %}
+      <a href="{% url 'catalog:toggle-clothing-assign' pk=clothing.id %}" class="btn btn-danger link-to-page">
+        Delete me from this clothing
+      </a>
+    {% else %}
+      <a href="{% url 'catalog:toggle-clothing-assign' pk=clothing.id %}" class="btn btn-success link-to-page">
+        Assign me from this clothing
+      </a>
+    {% endif %}
+  </h1>
+  <hr>
+  <ul>
+  {% for designer in clothing.designer.all %}
+    <li>{{ designer.username }} ({{ designer.first_name }} {{ designer.last_name }})</li>
+  {% endfor %}
+  <br>
+    <a class="btn btn-primary" href="{% url 'catalog:clothing-update' pk=clothing.id %}">UPDATE</a>
+    <a class="btn btn-danger" href="{% url 'catalog:clothing-delete' pk=clothing.id %}">DELETE</a>
+
+  </ul>
+{% endblock %}

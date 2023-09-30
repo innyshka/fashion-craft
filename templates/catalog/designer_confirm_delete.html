@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Delete Designer?</h1>
+  <h1>Delete Designer</h1>
 
-  <p>Are you sure you want to delete the designer: {{ designer }}?</p>
+  <p>Are you sure you want to delete the Designer: {{ designer }}?</p>
   <p><i>All Clothing with this designer will be also deleted!</i></p>
 
   <form action="" method="post">
   {% csrf_token  %}
   <input class="btn btn-danger" type="submit" value="Yes, delete">
-   <a href="{% url 'catalog:designer-list' %}" class="btn btn-secondary">Cancel</a>
+    <a href="{% url 'catalog:designer-list' %}" class="btn btn-secondary">Cancel</a>
   </form>
 {% endblock %}
+

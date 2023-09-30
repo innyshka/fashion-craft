@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import (
     HttpRequest,
@@ -7,6 +7,7 @@ from django.http import (
 )
 from django.urls import reverse_lazy
 from django.views import generic
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import (
     Clothing,
@@ -23,6 +24,8 @@ from .forms import (
     DesignerUpdateForm,
     ClothingForm,
 )
+
+from django.contrib.auth import authenticate, login
 
 
 @login_required
@@ -199,7 +202,7 @@ class DesignerUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class DesignerDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Designer
-    success_url = reverse_lazy("")
+    success_url = reverse_lazy("catalog:designer-list")
 
 
 class ClothingListView(LoginRequiredMixin, generic.ListView):
@@ -214,7 +217,15 @@ class ClothingListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self) -> Clothing:
-        queryset = Clothing.objects.all().select_related("clothing_type").prefetch_related("materials", "size", "designer")
+        queryset = (
+            Clothing.objects.all()
+            .select_related("clothing_type")
+            .prefetch_related(
+                "materials",
+                "size",
+                "designer"
+            )
+        )
         form = ByNameSearchForm(self.request.GET)
         if form.is_valid():
             return queryset.filter(name__icontains=form.cleaned_data["name"])
@@ -253,3 +264,17 @@ def toggle_assign_to_clothing(request, pk) -> HttpResponseRedirect:
         designer.clothes.add(pk)
     return HttpResponseRedirect(reverse_lazy("catalog:clothing-detail", args=[pk]))
 
+
+def register(request):
+    if request.method == 'POST':
+        form = DesignerCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('catalog:index')  # Redirect to the user's profile or any other desired page
+    else:
+        form = DesignerCreationForm()
+    return render(request, 'registration/register_user.html', {'form': form})

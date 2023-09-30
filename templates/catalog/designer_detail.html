@@ -3,7 +3,7 @@
 {% block content %}
   <h1>
     Username: {{ designer.username }}
-    <a href="{% url 'catalog:material-delete' pk=designer.id %}" class="btn btn-danger link-to-page">
+    <a href="{% url 'catalog:designer-delete' pk=designer.id %}" class="btn btn-danger link-to-page">
       Delete
     </a>
 
@@ -22,9 +22,9 @@
 
     {% for clothing in designer.clothes.all %}
         <hr>
-{#        <p><strong>Model:</strong> {{ car.model }}</p>#}
-{#        <p><strong>Manufacturer:</strong> {{ car.manufacturer.name }}</p>#}
-{#        <p class="text-muted"><strong>Id:</strong> {{car.id}}</p>#}
+        <p><strong>Name:</strong> {{ clothing.name }}</p>
+        <p><strong>Type:</strong> {{ clothing.clothing_type.name }}</p>
+        <p class="text-muted"><strong>Id:</strong> {{clothing.id}}</p>
 
     {% empty %}
       <p>No clothes!</p>
