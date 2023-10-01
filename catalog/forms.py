@@ -36,13 +36,14 @@ class DesignerCreationForm(UserCreationForm):
             "pseudonym",
             "first_name",
             "last_name",
+            "description"
         )
 
 
 class DesignerUpdateForm(forms.ModelForm):
     class Meta:
         model = Designer
-        fields = ("first_name", "last_name", "pseudonym", "username")
+        fields = ("first_name", "last_name", "pseudonym", "username",  "description")
 
 
 class ClothingForm(forms.ModelForm):
@@ -67,10 +68,56 @@ class ClothingForm(forms.ModelForm):
 
 
 class RegistrationForm(UserCreationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Username",
+                "class": "form-control"
+            }
+        ))
+    pseudonym = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Pseudonym",
+                "class": "form-control"
+            }
+        ))
+    first_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "First name",
+                "class": "form-control"
+            }
+        ))
+    last_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Last name",
+                "class": "form-control"
+                }
+            ))
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Password",
+                "class": "form-control"
+            }
+        ))
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Password check",
+                "class": "form-control"
+            }
+        ))
+
     class Meta(UserCreationForm.Meta):
         model = Designer
-        fields = UserCreationForm.Meta.fields + (
+        fields = (
+            "username",
             "pseudonym",
             "first_name",
             "last_name",
+            "password1",
+            "password2",
         )

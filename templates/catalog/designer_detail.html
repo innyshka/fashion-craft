@@ -1,33 +1,48 @@
-{% extends "base.html" %}
+{% extends 'layouts/base-presentation.html' %}
+{% block title %} Clothes {% endblock title %}
+{% block stylesheets %}{% endblock stylesheets %}
 
+{% block body_class %} clothes-page {% endblock body_class %}
 {% block content %}
-  <h1>
-    Username: {{ designer.username }}
-    <a href="{% url 'catalog:designer-delete' pk=designer.id %}" class="btn btn-danger link-to-page">
-      Delete
-    </a>
+   <section class="pt-lg-7 pt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 col-md-8 order-2 order-md-2 order-lg-1">
+          <div class="position-relative ms-lg-5 mb-0 mb-md-7 mb-lg-0 d-none d-md-block d-lg-block d-xl-block h-75">
+            <div class="bg-gradient-primary w-100 h-100 border-radius-xl position-absolute d-lg-block d-none" alt=""></div>
+            {% if designer.image %}
+            <img src="{{designer.image.url}}" class="w-100 border-radius-xl mt-6 ms-lg-5 position-relative z-index-5" alt="{{ designer.username }}" style="height: 500px; width: 100%; object-fit: cover; ">
+            {% else %}
+              <img src="{{ ASSETS_ROOT }}/img/bruce-mars.jpg" class="w-100 border-radius-xl mt-6 ms-lg-5 position-relative z-index-5" alt="{{ designer.username }}" style="height: 500px; width: 100%; object-fit: cover; ">
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-12 ms-auto order-1 order-md-1 order-lg-1">
+          <div class="p-3 pt-0">
 
-    <a href="{% url 'catalog:designer-update' pk=designer.id %}" class="btn btn-secondary link-to-page">
-      Update
-    </a>
-  </h1>
+            <h4 class="text-gradient text-primary mb-4">{{ designer.username }}</h4>
+            <h6 class="mb-0"><strong>First name: {{ designer.first_name}}</strong></h6>
+            <h6 class="mb-0"><strong>Last name: {{ designer.last_name }}</strong></h6>
+            <h6 class="mb-0"><strong>Pseudonym: {{ designer.pseudonym }}</strong></h6>
+            <h6 class="mb-2"><strong>Is staff: {{ designer.is_staff }}</strong></h6>
 
-  <p><strong>First name:</strong> {{ designer.first_name }}</p>
-  <p><strong>Last name:</strong> {{ designer.last_name }}</p>
-  <p><strong>Pseudonym:</strong> {{ designer.pseudonym }}</p>
-  <p><strong>Is staff:</strong> {{ designer.is_staff }}</p>
-
-  <div class="ml-3">
-    <h4>Clothes</h4>
-
-    {% for clothing in designer.clothes.all %}
-        <hr>
-        <p><strong>Name:</strong> {{ clothing.name }}</p>
-        <p><strong>Type:</strong> {{ clothing.clothing_type.name }}</p>
-        <p class="text-muted"><strong>Id:</strong> {{clothing.id}}</p>
-
-    {% empty %}
+            <h6 class="mb-0">My clothes</h6>
+            <ul class="list-group list-group-flush">
+            {% for clothing in designer.clothes.all %}
+              <li class="list-group-item">{{ clothing.name }} ({{ clothing.price }} {{ clothing.clothing_type.name }})</li>
+              {% empty %}
       <p>No clothes!</p>
-    {% endfor %}
-  </div>
-{% endblock %}
+            {% endfor %}
+            </ul>
+
+
+          <a class="btn btn-dark" href="{% url 'catalog:designer-update' pk=designer.id %}">UPDATE</a>
+          <a class="btn btn-danger" href="{% url 'catalog:designer-delete' pk=designer.id %}">DELETE</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock content%}

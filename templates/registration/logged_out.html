@@ -1,4 +1,6 @@
-{% extends "base.html" %}
+{% extends 'layouts/base-fullscreen.html' %}
+{% block title %} LOGOUT {% endblock title %}
+
 {%  block content %}
 <p>Logged out</p>
 <a href="{% url 'login' %}">Click here to log in again</a>

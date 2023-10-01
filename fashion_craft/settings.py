@@ -67,6 +67,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "catalog.context_processors.cfg_assets_root",
             ],
         },
     },
@@ -144,3 +145,4 @@ INTERNAL_IPS = [
 
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+ASSETS_ROOT = "/static/assets/"

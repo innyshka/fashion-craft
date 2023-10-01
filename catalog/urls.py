@@ -24,8 +24,8 @@ from catalog.views import (
     ClothingUpdateView,
     ClothingDeleteView,
     toggle_assign_to_clothing,
-
 )
+
 urlpatterns = [
     path("", index, name="index"),
     path(
@@ -48,7 +48,6 @@ urlpatterns = [
         ClothingTypeDeleteView.as_view(),
         name="clothing-type-delete",
     ),
-
     path(
         "materials/",
         MaterialListView.as_view(),
@@ -69,7 +68,6 @@ urlpatterns = [
         MaterialDeleteView.as_view(),
         name="material-delete",
     ),
-
     path(
         "sizes/",
         SizeListView.as_view(),
@@ -90,21 +88,16 @@ urlpatterns = [
         SizeDeleteView.as_view(),
         name="size-delete",
     ),
-
-    path(
-        "designer/",
-        DesignerListView.as_view(),
-        name="designer-list"
-    ),
+    path("designer/", DesignerListView.as_view(), name="designer-list"),
     path(
         "designer/<int:pk>/",
         DesignerDetailView.as_view(),
-        name="designer-detail"
+        name="designer-detail",
     ),
     path(
         "designer/create/",
         DesignerCreateView.as_view(),
-        name="designer-create"
+        name="designer-create",
     ),
     path(
         "designer/<int:pk>/update/",
@@ -116,17 +109,29 @@ urlpatterns = [
         DesignerDeleteView.as_view(),
         name="designer-delete",
     ),
-
     path("clothes/", ClothingListView.as_view(), name="clothing-list"),
-    path("clothes/<int:pk>/", ClothingDetailView.as_view(), name="clothing-detail"),
-    path("clothes/create/", ClothingCreateView.as_view(), name="clothing-create"),
-    path("clothes/<int:pk>/update/", ClothingUpdateView.as_view(), name="clothing-update"),
-    path("clothes/<int:pk>/delete/", ClothingDeleteView.as_view(), name="clothing-delete"),
+    path(
+        "clothes/<int:pk>/",
+        ClothingDetailView.as_view(),
+        name="clothing-detail",
+    ),
+    path(
+        "clothes/create/", ClothingCreateView.as_view(), name="clothing-create"
+    ),
+    path(
+        "clothes/<int:pk>/update/",
+        ClothingUpdateView.as_view(),
+        name="clothing-update",
+    ),
+    path(
+        "clothes/<int:pk>/delete/",
+        ClothingDeleteView.as_view(),
+        name="clothing-delete",
+    ),
     path(
         "clothes/<int:pk>/toggle-assign/",
         toggle_assign_to_clothing,
         name="toggle-clothing-assign",
     ),
-
 ]
 app_name = "catalog"

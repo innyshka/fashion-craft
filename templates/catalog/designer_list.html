@@ -1,36 +1,92 @@
-{% extends "base.html" %}
+{% extends 'layouts/base-presentation.html' %}
+{% block title %} Designer {% endblock title %}
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} designer-page {% endblock body_class %}
 
 
 {% block content %}
-    <h1>
-      Designer List
-      <a href="{% url 'catalog:designer-create' %}" class="btn btn-primary link-to-page">
-        Create
-      </a>
-    </h1>
-  {% include "includes/search_form.html" %}
+    <header class="header-2">
+    <div class="page-header section-height-50 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/curved.jpg')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
 
-    {% if designer_list %}
-    <table class="table">
-      <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Pseudonym</th>
-      </tr>
-    {% for designer in designer_list %}
-      <tr>
-        <td>{{ designer.id }}</td>
-        <td><a href="{{ designer.get_absolute_url }}">{{ designer.username }} {% if user == designer %} (Me){% endif %}</a></td>
-        <td>{{ designer.first_name }}</td>
-        <td>{{ designer.last_name }}</td>
-        <td>{{ designer.pseudonym }}</td>
-      </tr>
-    {% endfor %}
+            <h1 class="text-white pt-3 mt-n5">
+              Designer List
+            </h1>
+            <a href="{% url 'catalog:designer-create' %}" class="btn btn-primary link-to-page">
+      Create new
+            </a>
 
-    </table>
-    {% else %}
+          </div>
+        </div>
+      </div>
+      <div class="position-absolute w-100 z-index-1 bottom-0">
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+          <defs>
+            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+          </defs>
+          <g class="moving-waves">
+            <use xlink:href="#gentle-wave" x="48" y="-1" fill="rgba(255,255,255,0.40" />
+            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.35)" />
+            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.25)" />
+            <use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(255,255,255,0.20)" />
+            <use xlink:href="#gentle-wave" x="48" y="13" fill="rgba(255,255,255,0.15)" />
+            <use xlink:href="#gentle-wave" x="48" y="16" fill="rgba(255,255,255,0.95" />
+          </g>
+        </svg>
+      </div>
+
+    </div>
+  </header>
+
+
+    <section class="py-sm-7 py-5 position-relative">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 mx-auto">
+          {% include "includes/search_form.html" %}
+
+          {% if designer_list %}
+            {% for designer in designer_list %}
+          <div class="row py-lg-3 py-2">
+            <div class="col-lg-3 col-md-5 position-relative my-auto">
+              <img class="img border-radius-lg max-width-200 w-100 position-relative z-index-2" src="{{ ASSETS_ROOT }}/img/bruce-mars.jpg">
+            </div>
+            <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 class="mb-0"><a href="{{ designer.get_absolute_url }}">{{ designer.first_name }} {{ designer.last_name }} {% if user == designer %} (Me){% endif %}</a></h4>
+                <div class="d-block">
+                  <a href="{{ designer.get_absolute_url }}" class="text-info icon-move-right">More about me
+                  <i class="fas fa-arrow-right text-sm ms-1"></i>
+                </a>
+                </div>
+              </div>
+              <div class="row mb-0">
+                <div class="col-auto">
+                  <span>Username: {{ designer.username }}</span>
+                </div>
+
+              </div>
+            <div class="row mb-0">
+
+                <div class="col-auto">
+                  <span>Pseudonym: {{ designer.pseudonym }}</span>
+                </div>
+              </div>
+              <p class="text-lg mb-0">
+                {{designer.description}}
+              </p>
+            </div>
+          </div>
+          {% endfor %}
+          {% else %}
       <p>There are no designers in the service.</p>
     {% endif %}
-{% endblock %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock content%}

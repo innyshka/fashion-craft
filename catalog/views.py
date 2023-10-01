@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import (
     HttpRequest,
-    HttpResponse, HttpResponseRedirect,
+    HttpResponse,
+    HttpResponseRedirect,
 )
 from django.urls import reverse_lazy
 from django.views import generic
@@ -23,6 +24,7 @@ from .forms import (
     DesignerCreationForm,
     DesignerUpdateForm,
     ClothingForm,
+    RegistrationForm
 )
 
 from django.contrib.auth import authenticate, login
@@ -47,7 +49,7 @@ def index(request: HttpRequest) -> HttpResponse:
 class ClothingTypeListView(LoginRequiredMixin, generic.ListView):
     model = ClothingType
     context_object_name = "clothing_type_list"
-    paginate_by = 5
+    paginate_by = 15
 
     def get_context_data(self, *, object_list=None, **kwargs) -> dict:
         context = super(ClothingTypeListView, self).get_context_data(**kwargs)
@@ -60,9 +62,7 @@ class ClothingTypeListView(LoginRequiredMixin, generic.ListView):
         form = ByNameSearchForm(self.request.GET)
         queryset = ClothingType.objects.all()
         if form.is_valid():
-            return queryset.filter(
-                name__icontains=form.cleaned_data["name"]
-            )
+            return queryset.filter(name__icontains=form.cleaned_data["name"])
         return queryset
 
 
@@ -86,7 +86,7 @@ class ClothingTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
 class MaterialListView(LoginRequiredMixin, generic.ListView):
     model = Material
     context_object_name = "material_list"
-    paginate_by = 5
+    paginate_by = 15
 
     def get_context_data(self, *, object_list=None, **kwargs) -> dict:
         context = super(MaterialListView, self).get_context_data(**kwargs)
@@ -99,9 +99,7 @@ class MaterialListView(LoginRequiredMixin, generic.ListView):
         form = ByNameSearchForm(self.request.GET)
         queryset = Material.objects.all()
         if form.is_valid():
-            return queryset.filter(
-                name__icontains=form.cleaned_data["name"]
-            )
+            return queryset.filter(name__icontains=form.cleaned_data["name"])
         return queryset
 
 
@@ -125,7 +123,7 @@ class MaterialDeleteView(LoginRequiredMixin, generic.DeleteView):
 class SizeListView(LoginRequiredMixin, generic.ListView):
     model = Size
     context_object_name = "size_list"
-    paginate_by = 5
+    paginate_by = 15
 
     def get_context_data(self, *, object_list=None, **kwargs) -> dict:
         context = super(SizeListView, self).get_context_data(**kwargs)
@@ -138,9 +136,7 @@ class SizeListView(LoginRequiredMixin, generic.ListView):
         form = ByNameSearchForm(self.request.GET)
         queryset = Size.objects.all()
         if form.is_valid():
-            return queryset.filter(
-                name__icontains=form.cleaned_data["name"]
-            )
+            return queryset.filter(name__icontains=form.cleaned_data["name"])
         return queryset
 
 
@@ -207,7 +203,7 @@ class DesignerDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class ClothingListView(LoginRequiredMixin, generic.ListView):
     model = Clothing
-    paginate_by = 5
+    paginate_by = 20
 
     def get_context_data(self, *, object_list=None, **kwargs) -> dict:
         context = super(ClothingListView, self).get_context_data(**kwargs)
@@ -220,11 +216,7 @@ class ClothingListView(LoginRequiredMixin, generic.ListView):
         queryset = (
             Clothing.objects.all()
             .select_related("clothing_type")
-            .prefetch_related(
-                "materials",
-                "size",
-                "designer"
-            )
+            .prefetch_related("materials", "size", "designer")
         )
         form = ByNameSearchForm(self.request.GET)
         if form.is_valid():
@@ -256,25 +248,33 @@ class ClothingDeleteView(LoginRequiredMixin, generic.DeleteView):
 @login_required
 def toggle_assign_to_clothing(request, pk) -> HttpResponseRedirect:
     designer = Designer.objects.get(id=request.user.id)
-    if (
-        Clothing.objects.get(id=pk) in designer.clothes.all()
-    ):
+    if Clothing.objects.get(id=pk) in designer.clothes.all():
         designer.clothes.remove(pk)
     else:
         designer.clothes.add(pk)
-    return HttpResponseRedirect(reverse_lazy("catalog:clothing-detail", args=[pk]))
+    return HttpResponseRedirect(
+        reverse_lazy("catalog:clothing-detail", args=[pk])
+    )
 
 
 def register(request):
-    if request.method == 'POST':
-        form = DesignerCreationForm(request.POST)
+    msg = None
+    success = False
+
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password1")
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('catalog:index')  # Redirect to the user's profile or any other desired page
+            success = True
+            return redirect(
+                "catalog:index"
+            )
+        else:
+            msg = 'Form is not valid'
     else:
-        form = DesignerCreationForm()
-    return render(request, 'registration/register_user.html', {'form': form})
+        form = RegistrationForm()
+    return render(request, "registration/register_user.html", {"form": form, "msg": msg, "success": success})

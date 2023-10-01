@@ -2,13 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 
-from catalog.models import (
-    Clothing,
-    Designer,
-    Size,
-    Material,
-    ClothingType
-)
+from catalog.models import Clothing, Designer, Size, Material, ClothingType
 
 
 @admin.register(Clothing)
@@ -33,7 +27,7 @@ class DesignerAdmin(UserAdmin):
                     "last_name",
                     "pseudonym",
                 )
-            }
+            },
         ),
     )
 
@@ -42,4 +36,3 @@ admin.site.register(Size)
 admin.site.register(ClothingType)
 admin.site.register(Material)
 admin.site.unregister(Group)
-
