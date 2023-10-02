@@ -212,6 +212,13 @@ class ClothingListView(LoginRequiredMixin, generic.ListView):
         name = self.request.GET.get("name", "")
         context["name"] = name
         context["search_from"] = ByNameSearchForm(initial={"name": name})
+        material_list = Material.objects.all()
+        context["material_list"] = material_list
+        clothing_type_list = ClothingType.objects.all()
+        context["clothing_type_list"] = clothing_type_list
+        designer_list = Designer.objects.all()
+        context["designer_list"] = designer_list
+
         return context
 
     def get_queryset(self) -> Clothing:

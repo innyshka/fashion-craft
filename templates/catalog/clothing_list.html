@@ -45,6 +45,27 @@
   <section class="pt-3 pb-4 " id="count-stats" >
 
     <div class="container">
+      <h4> Choose Materials</h4>
+    <ul class="list-inline widget-list-inline">
+          {% for material in material_list %}
+            <li class="list-inline-item badge bg-gradient-light text-dark m-0"><a href="{% url 'catalog:clothing-list'%}?material_id={{ material.id }}">{{ material.name }}</a></li>
+          {% endfor %}
+    </ul>
+
+
+    <h4> Choose Clothing Type</h4>
+    <ul class="list-inline widget-list-inline">
+          {% for clothing_type in clothing_type_list %}
+            <li class="list-inline-item badge bg-gradient-light text-dark m-0"><a href="{% url 'catalog:clothing-list'%}?clothing_type_id={{ clothing_type.id }}">{{ clothing_type.name }}</a></li>
+          {% endfor %}
+    </ul>
+
+    <h4> Choose Designer</h4>
+    <ul class="list-inline widget-list-inline">
+          {% for designer in designer_list %}
+            <li class="list-inline-item badge bg-gradient-light text-dark m-0"><a href="{% url 'catalog:clothing-list'%}?designer_id={{ designer.id }}">{{ designer.pseudonym }}</a></li>
+          {% endfor %}
+    </ul>
 
       <div class="row row-cols-1 row-cols-md-4 g-4 ">
           {% include "includes/search_form.html" %}
