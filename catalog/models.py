@@ -65,6 +65,7 @@ class Designer(AbstractUser):
         upload_to="images/designers", null=True, blank=True
     )
     description = models.TextField(blank=True, null=True)
+
     class Meta:
         ordering = ["username"]
         verbose_name = "designer"
