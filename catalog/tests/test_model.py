@@ -8,10 +8,7 @@ from django.contrib.auth import get_user_model
 class ModelTests(TestCase):
     def test_material_str(self) -> None:
         material = Material.objects.create(name="test")
-        self.assertEqual(
-            str(material),
-            material.name
-        )
+        self.assertEqual(str(material), material.name)
 
     def test_clothing_type_str(self) -> None:
         clothing_type = ClothingType.objects.create(name="test")
@@ -19,22 +16,15 @@ class ModelTests(TestCase):
 
     def test_size_str(self) -> None:
         size = Size.objects.create(name="test", description="test")
-        self.assertEqual(
-            str(size),
-            f"{size.name} ({size.description})"
-        )
+        self.assertEqual(str(size), f"{size.name} ({size.description})")
 
     def test_clothing_str(self) -> None:
         clothing = Clothing.objects.create(
             name="test",
             price=10.0,
             clothing_type=ClothingType.objects.create(name="test"),
-
         )
-        self.assertEqual(
-            str(clothing),
-            f"{clothing.name} - ${clothing.price}"
-        )
+        self.assertEqual(str(clothing), f"{clothing.name} - ${clothing.price}")
 
     def test_designer_str(self) -> None:
         designer = get_user_model().objects.create_user(
@@ -45,7 +35,7 @@ class ModelTests(TestCase):
         )
         self.assertEqual(
             str(designer),
-            f"{designer.username} {designer.first_name} {designer.last_name}"
+            f"{designer.username} {designer.first_name} {designer.last_name}",
         )
 
     def test_create_designer_with_pseudonym(self) -> None:
@@ -58,4 +48,3 @@ class ModelTests(TestCase):
         self.assertEqual(designer.username, username)
         self.assertEqual(designer.pseudonym, pseudonym)
         self.assertTrue(designer.check_password(password))
-        

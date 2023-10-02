@@ -23,7 +23,7 @@ from .forms import (
     DesignerCreationForm,
     DesignerUpdateForm,
     ClothingForm,
-    RegistrationForm
+    RegistrationForm,
 )
 
 from django.contrib.auth import authenticate, login
@@ -195,7 +195,7 @@ class DesignerUpdateView(LoginRequiredMixin, generic.UpdateView):
 
     def get_success_url(self):
         pk = self.object.pk
-        return reverse_lazy("catalog:designer-detail", kwargs={'pk': pk})
+        return reverse_lazy("catalog:designer-detail", kwargs={"pk": pk})
 
 
 class DesignerDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -229,12 +229,14 @@ class ClothingListView(LoginRequiredMixin, generic.ListView):
         )
 
         form = ByNameSearchForm(self.request.GET)
-        material_id = self.request.GET.get('material_id')
-        clothing_type_id = self.request.GET.get('clothing_type_id')
-        designer_id = self.request.GET.get('designer_id')
+        material_id = self.request.GET.get("material_id")
+        clothing_type_id = self.request.GET.get("clothing_type_id")
+        designer_id = self.request.GET.get("designer_id")
 
         if form.is_valid():
-            queryset = queryset.filter(name__icontains=form.cleaned_data["name"])
+            queryset = queryset.filter(
+                name__icontains=form.cleaned_data["name"]
+            )
 
         if material_id:
             queryset = queryset.filter(materials__id=material_id)
@@ -264,7 +266,7 @@ class ClothingUpdateView(LoginRequiredMixin, generic.UpdateView):
 
     def get_success_url(self):
         pk = self.object.pk
-        return reverse_lazy("catalog:clothing-detail", kwargs={'pk': pk})
+        return reverse_lazy("catalog:clothing-detail", kwargs={"pk": pk})
 
 
 class ClothingDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -297,11 +299,13 @@ def register(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             success = True
-            return redirect(
-                "catalog:index"
-            )
+            return redirect("catalog:index")
         else:
-            msg = 'Form is not valid'
+            msg = "Form is not valid"
     else:
         form = RegistrationForm()
-    return render(request, "registration/register_user.html", {"form": form, "msg": msg, "success": success})
+    return render(
+        request,
+        "registration/register_user.html",
+        {"form": form, "msg": msg, "success": success},
+    )

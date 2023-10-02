@@ -58,10 +58,7 @@ class PrivateMaterialTest(TestCase):
 
     def test_search_material_by_name(self) -> None:
         searched_name = "name_8"
-        response = self.client.get(
-            MATERIAL_LIST_URL,
-            {"name": searched_name}
-        )
+        response = self.client.get(MATERIAL_LIST_URL, {"name": searched_name})
         self.assertEquals(response.status_code, 200)
         self.assertEquals(
             response.context["material_list"][0],
@@ -77,10 +74,7 @@ class PrivateSizeTest(TestCase):
             pseudonym="ABC123455",
         )
         for i in range(15):
-            Size.objects.create(
-                name=f"name_{i}",
-                description=f"test_{i}"
-            )
+            Size.objects.create(name=f"name_{i}", description=f"test_{i}")
         self.client.force_login(self.user)
 
     def test_retrieve_size(self) -> None:
@@ -95,10 +89,7 @@ class PrivateSizeTest(TestCase):
 
     def test_search_size_by_name(self) -> None:
         searched_name = "name_8"
-        response = self.client.get(
-            SIZE_LIST_URL,
-            {"name": searched_name}
-        )
+        response = self.client.get(SIZE_LIST_URL, {"name": searched_name})
         self.assertEquals(response.status_code, 200)
         self.assertEquals(
             response.context["size_list"][0],
@@ -132,8 +123,7 @@ class PrivateClothingTypeTest(TestCase):
     def test_search_clothing_type_by_name(self) -> None:
         searched_name = "name_8"
         response = self.client.get(
-            CLOTHING_TYPE_LIST_URL,
-            {"name": searched_name}
+            CLOTHING_TYPE_LIST_URL, {"name": searched_name}
         )
         self.assertEquals(response.status_code, 200)
         self.assertEquals(
@@ -150,13 +140,9 @@ class PrivateClothingTest(TestCase):
             pseudonym="ABC123455",
         )
         for i in range(15):
-            clothing_type = ClothingType.objects.create(
-                name=f"clt_name_{i}"
-            )
+            clothing_type = ClothingType.objects.create(name=f"clt_name_{i}")
             Clothing.objects.create(
-                name=f"name_{i}",
-                clothing_type=clothing_type,
-                price=40.0
+                name=f"name_{i}", clothing_type=clothing_type, price=40.0
             )
         self.client.force_login(self.user)
 
@@ -176,7 +162,7 @@ class PrivateClothingTest(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertEquals(
             response.context["clothing_list"][0],
-            Clothing.objects.get(name=searched_name)
+            Clothing.objects.get(name=searched_name),
         )
 
 
@@ -208,8 +194,7 @@ class PrivateDesignerTest(TestCase):
     def test_search_designer_by_username(self) -> None:
         searched_username = "user_4"
         response = self.client.get(
-            DESIGNER_LIST_URL,
-            {"username": searched_username}
+            DESIGNER_LIST_URL, {"username": searched_username}
         )
         self.assertEquals(response.status_code, 200)
         self.assertEquals(

@@ -7,14 +7,11 @@ class AdminSiteTests(TestCase):
     def setUp(self) -> None:
         self.client = Client()
         self.admin_user = get_user_model().objects.create_superuser(
-            username="admin",
-            password="admin"
+            username="admin", password="admin"
         )
         self.client.force_login(self.admin_user)
         self.designer = get_user_model().objects.create_user(
-            username="designer",
-            password="testdesigner",
-            pseudonym="designer"
+            username="designer", password="testdesigner", pseudonym="designer"
         )
 
     def test_designer_pseudonym_listed(self) -> None:
