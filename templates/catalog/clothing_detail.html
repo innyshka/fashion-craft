@@ -10,7 +10,11 @@
         <div class="col-lg-5 col-md-8 order-2 order-md-2 order-lg-1">
           <div class="position-relative ms-lg-5 mb-0 mb-md-7 mb-lg-0 d-none d-md-block d-lg-block d-xl-block h-75">
             <div class="bg-gradient-primary w-100 h-100 border-radius-xl position-absolute d-lg-block d-none" alt=""></div>
+            {% if clothing.image %}
             <img src="{{clothing.image.url}}" class="w-100 border-radius-xl mt-6 ms-lg-5 position-relative z-index-5" alt="{{ clothing.name }}" style="height: 500px; width: 100%; object-fit: cover; ">
+          {% else %}
+                  <img src="{{ ASSETS_ROOT }}/img/defoult_clothes.jpg" class="w-100 border-radius-xl mt-6 ms-lg-5 position-relative z-index-5" alt="{{ clothing.name }}" style="height: 500px; width: 100%; object-fit: cover; ">
+                  {%  endif %}
           </div>
         </div>
         <div class="col-lg-5 col-md-12 ms-auto order-1 order-md-1 order-lg-1">
@@ -38,9 +42,10 @@
                 </a>
              {% endif %}
             </h6>
-
+            {% if user in clothing.designer.all %}
           <a class="btn btn-dark" href="{% url 'catalog:clothing-update' pk=clothing.id %}">UPDATE</a>
           <a class="btn btn-danger" href="{% url 'catalog:clothing-delete' pk=clothing.id %}">DELETE</a>
+          {% endif %}
 
           </div>
         </div>

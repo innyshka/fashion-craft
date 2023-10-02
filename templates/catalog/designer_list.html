@@ -52,14 +52,18 @@
             {% for designer in designer_list %}
           <div class="row py-lg-3 py-2">
             <div class="col-lg-3 col-md-5 position-relative my-auto">
-              <img class="img border-radius-lg max-width-200 w-100 position-relative z-index-2" src="{{ ASSETS_ROOT }}/img/bruce-mars.jpg">
+              {% if designer.image %}
+              <img class="img border-radius-lg max-width-200 w-100 position-relative z-index-2" src="{{ designer.image.url}}" alt="{{ clothing.name }}">
+            {% else %}
+                  <img src="{{ ASSETS_ROOT }}/img/anonym.jpg" alt="{{ clothing.name }}"  class="img border-radius-lg max-width-200 w-100 position-relative z-index-2">
+                  {%  endif %}
             </div>
             <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h4 class="mb-0"><a href="{{ designer.get_absolute_url }}">{{ designer.first_name }} {{ designer.last_name }} {% if user == designer %} (Me){% endif %}</a></h4>
                 <div class="d-block">
-                  <a href="{{ designer.get_absolute_url }}" class="text-info icon-move-right">More about me
-                  <i class="fas fa-arrow-right text-sm ms-1"></i>
+                  <a href="{{ designer.get_absolute_url }}" class="text-info icon-move-right">More about designer
+
                 </a>
                 </div>
               </div>
@@ -70,14 +74,20 @@
 
               </div>
             <div class="row mb-0">
-
                 <div class="col-auto">
                   <span>Pseudonym: {{ designer.pseudonym }}</span>
                 </div>
               </div>
+
               <p class="text-lg mb-0">
                 {{designer.description}}
               </p>
+            <div class="d-block">
+                <div class="col-auto">
+                  <a href="{% url 'catalog:clothing-list'%}?designer_id={{ designer.id }}" class="text-info icon-move-right">Works
+                    <i class="fas fa-arrow-right text-sm ms-1"></i></a>
+                </div>
+              </div>
             </div>
           </div>
           {% endfor %}

@@ -36,14 +36,16 @@ class DesignerCreationForm(UserCreationForm):
             "pseudonym",
             "first_name",
             "last_name",
-            "description"
+            "image",
+            "description",
+
         )
 
 
 class DesignerUpdateForm(forms.ModelForm):
     class Meta:
         model = Designer
-        fields = ("first_name", "last_name", "pseudonym", "username",  "description")
+        fields = ("first_name", "last_name", "pseudonym", "username",  "description", "image")
 
 
 class ClothingForm(forms.ModelForm):

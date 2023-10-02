@@ -8,7 +8,6 @@ from django.http import (
 )
 from django.urls import reverse_lazy
 from django.views import generic
-from django.contrib.auth.forms import UserCreationForm
 
 from .models import (
     Clothing,
@@ -193,7 +192,10 @@ class DesignerCreateView(LoginRequiredMixin, generic.CreateView):
 class DesignerUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Designer
     form_class = DesignerUpdateForm
-    success_url = reverse_lazy("catalog:designer-list")
+
+    def get_success_url(self):
+        pk = self.object.pk
+        return reverse_lazy("catalog:designer-detail", kwargs={'pk': pk})
 
 
 class DesignerDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -218,9 +220,24 @@ class ClothingListView(LoginRequiredMixin, generic.ListView):
             .select_related("clothing_type")
             .prefetch_related("materials", "size", "designer")
         )
+
         form = ByNameSearchForm(self.request.GET)
+        material_id = self.request.GET.get('material_id')
+        clothing_type_id = self.request.GET.get('clothing_type_id')
+        designer_id = self.request.GET.get('designer_id')
+
         if form.is_valid():
-            return queryset.filter(name__icontains=form.cleaned_data["name"])
+            queryset = queryset.filter(name__icontains=form.cleaned_data["name"])
+
+        if material_id:
+            queryset = queryset.filter(materials__id=material_id)
+
+        if clothing_type_id:
+            queryset = queryset.filter(clothing_type__id=clothing_type_id)
+
+        if designer_id:
+            queryset = queryset.filter(designer__id=designer_id)
+
         return queryset
 
 
@@ -237,7 +254,10 @@ class ClothingCreateView(LoginRequiredMixin, generic.CreateView):
 class ClothingUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Clothing
     form_class = ClothingForm
-    success_url = reverse_lazy("catalog:clothing-list")
+
+    def get_success_url(self):
+        pk = self.object.pk
+        return reverse_lazy("catalog:clothing-detail", kwargs={'pk': pk})
 
 
 class ClothingDeleteView(LoginRequiredMixin, generic.DeleteView):

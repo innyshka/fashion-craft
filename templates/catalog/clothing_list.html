@@ -52,16 +52,22 @@
         {% for clothing in clothing_list %}
         <div class="col">
           <div class="card shadow-lg">
-            {% if clothing.image %}
+
               <a href="{% url "catalog:clothing-detail" pk=clothing.id %}">
-            <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1"  >
+
+                <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1"  >
               <div class="d-block blur-shadow-image">
+                {% if clothing.image %}
                 <img src="{{ clothing.image.url }}" alt="{{ clothing.name }}"  class="img-fluid shadow rounded-3" style="height: 200px; width: 100%; object-fit: cover; ">
-              </div>
+                {% else %}
+                  <img src="{{ ASSETS_ROOT }}/img/defoult_clothes.jpg" alt="{{ clothing.name }}"  class="img-fluid shadow rounded-3" style="height: 200px; width: 100%; object-fit: cover; ">
+                  {%  endif %}
+                  </div>
               <div class="colored-shadow" style="background-image: url(&quot;https://images.unsplash.com/photo-1604446062885-9f29f136fe87?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=3300&amp;q=80&quot;);"></div>
             </div>
               </a>
-            {%  endif %}
+
+
             <div class="card-body">
               <a href="{% url "catalog:clothing-detail" pk=clothing.id %}">
                 <h5 class="mt-2">
