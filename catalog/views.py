@@ -275,12 +275,11 @@ class ClothingDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 
 @login_required
-def toggle_assign_to_clothing(request, pk) -> HttpResponseRedirect:
+def remove_designer_from_clothing(request, pk) -> HttpResponseRedirect:
     designer = Designer.objects.get(id=request.user.id)
     if Clothing.objects.get(id=pk) in designer.clothes.all():
         designer.clothes.remove(pk)
-    else:
-        designer.clothes.add(pk)
+
     return HttpResponseRedirect(
         reverse_lazy("catalog:clothing-detail", args=[pk])
     )

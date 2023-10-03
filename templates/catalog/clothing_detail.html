@@ -29,16 +29,14 @@
             <ul class="list-group list-group-flush">
             {% for designer in clothing.designer.all %}
     <li class="list-group-item">{{ designer.username }} ({{ designer.first_name }} {{ designer.last_name }})</li>
+              {% empty %}
+              <p> There are no designers!</p>
   {% endfor %}
             </ul>
 
              {% if clothing in user.clothes.all %}
-                <a href="{% url 'catalog:toggle-clothing-assign' pk=clothing.id %}" class="btn btn-danger link-to-page">
+                <a href="{% url 'catalog:remove-designer-from-clothing' pk=clothing.id %}" class="btn btn-danger link-to-page">
                   Delete me from this clothing
-                </a>
-              {% else %}
-                <a href="{% url 'catalog:toggle-clothing-assign' pk=clothing.id %}" class="btn btn-success link-to-page">
-                  Assign me from this clothing
                 </a>
              {% endif %}
             </h6>

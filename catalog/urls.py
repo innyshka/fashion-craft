@@ -23,7 +23,7 @@ from catalog.views import (
     ClothingCreateView,
     ClothingUpdateView,
     ClothingDeleteView,
-    toggle_assign_to_clothing,
+    remove_designer_from_clothing,
 )
 
 urlpatterns = [
@@ -130,8 +130,8 @@ urlpatterns = [
     ),
     path(
         "clothes/<int:pk>/toggle-assign/",
-        toggle_assign_to_clothing,
-        name="toggle-clothing-assign",
+        remove_designer_from_clothing,
+        name="remove-designer-from-clothing",
     ),
 ]
 app_name = "catalog"
