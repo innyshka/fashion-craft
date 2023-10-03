@@ -8,7 +8,7 @@ Django project for managing the production of fashion clothing
 ### Test User
 
 ```
-username: test_user
+username: best_test_user
 password: 1QAZcde3
 ```
 
