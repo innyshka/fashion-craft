@@ -3,7 +3,7 @@
 Django project for managing the production of fashion clothing
 
 ## Check it out!
-[Fashion Craft project deployed to render.com](LINK)
+[Fashion Craft project deployed to render.com](https://fashion-craft.onrender.com/)
 
 ### Test User
 
