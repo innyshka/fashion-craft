@@ -20,7 +20,7 @@ Python3 must be already installed
 git clone https://github.com/innyshka/fashion-craft.git
 cd fashion_craft
 python3 -m venv venv
-source venv\Scripts\activate
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
@@ -34,7 +34,7 @@ python manage.py runserver #starts Django server
 * Powerful admin panel for advanced managing
 
 ## Demo
-![Website Interface](img.png)
+![Website Interface](demo/img.png)
 
 ## DB structure
-![DB structure](db_structure.png)
+![DB structure](demo/db_structure.png)

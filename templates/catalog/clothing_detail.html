@@ -28,7 +28,7 @@
             <h6>Designer(s)
             <ul class="list-group list-group-flush">
             {% for designer in clothing.designer.all %}
-    <li class="list-group-item">{{ designer.username }} ({{ designer.first_name }} {{ designer.last_name }})</li>
+              <li class="list-group-item"><a href="{{ designer.get_absolute_url }}">{{ designer.username }} ({{ designer.first_name }} {{ designer.last_name }})</a></li>
               {% empty %}
               <p> There are no designers!</p>
   {% endfor %}
