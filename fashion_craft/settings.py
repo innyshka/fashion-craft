@@ -4,8 +4,8 @@ from pathlib import Path
 from django.template.context_processors import media
 import dj_database_url
 
-BASE_DIR = Path(__file__).resolve().parent.parent
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "catalog",
     "crispy_forms",
     "crispy_bootstrap4",
+    "storages"
 ]
 
 MIDDLEWARE = [
@@ -96,12 +97,13 @@ USE_TZ = True
 
 
 STATIC_URL = "static/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -118,3 +120,11 @@ INTERNAL_IPS = [
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 ASSETS_ROOT = "/static/assets/"
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+AWS_ACCESS_KEY_ID = "AKIAUX2FS3JGUEGIXT7B"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "fashioncraftbucket"
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
