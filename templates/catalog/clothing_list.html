@@ -49,27 +49,45 @@
     {% include "includes/search_form.html" %}
     <h4> Choose Clothing Type</h4>
     <ul class="list-inline widget-list-inline">
-          {% for clothing_type in clothing_type_list %}
-            <li class="list-inline-item badge bg-gradient-light text-dark m-0"><a href="{% url 'catalog:clothing-list'%}?{% query_transform request clothing_type_id=clothing_type.id %}">{{ clothing_type.name }}</a></li>
-          {% endfor %}
-    </ul>
+    {% for clothing_type in clothing_type_list %}
+    {% if selected_clothing_type_id == clothing_type.id %}
+        <li class="list-inline-item badge bg-primary text-white m-0">
+            <a href="{% url 'catalog:clothing-list'%}?{% query_transform request clothing_type_id=clothing_type.id %}">{{ clothing_type.name }}</a>
+        </li>
+    {% else %}
+        <li class="list-inline-item badge bg-gradient-light text-dark m-0">
+            <a href="{% url 'catalog:clothing-list'%}?{% query_transform request clothing_type_id=clothing_type.id %}">{{ clothing_type.name }}</a>
+        </li>
+    {% endif %}
+    {% endfor %}
 
-    <h4> Choose Designer</h4>
+     <h4> Choose Designer</h4>
     <ul class="list-inline widget-list-inline">
-          {% for designer in designer_list %}
-            <li class="list-inline-item badge bg-gradient-light text-dark m-0">
-              <a href="{% url 'catalog:clothing-list'%}?{% query_transform request designer_id=designer.id %}">
-                {{ designer.pseudonym }}</a></li>
-          {% endfor %}
-    </ul>
-
+    {% for designer in designer_list %}
+    {% if selected_designer_id == designer.id %}
+        <li class="list-inline-item badge bg-primary text-white m-0">
+            <a href="{% url 'catalog:clothing-list'%}?{% query_transform request designer_id=designer.id %}">{{ designer.pseudonym }}</a>
+        </li>
+    {% else %}
+        <li class="list-inline-item badge bg-gradient-light text-dark m-0">
+            <a href="{% url 'catalog:clothing-list'%}?{% query_transform request designer_id=designer.id %}">{{ designer.pseudonym }}</a>
+        </li>
+    {% endif %}
+    {% endfor %}
     <h4> Choose Materials</h4>
     <ul class="list-inline widget-list-inline">
           {% for material in material_list %}
-            <li class="list-inline-item badge bg-gradient-light text-dark m-0"><a href="{% url 'catalog:clothing-list'%}?{% query_transform request material_id=material.id %}">{{ material.name }}</a></li>
+            {% if selected_material_id == material.id %}
+            <li class="list-inline-item badge bg-primary text-white m-0">
+              <a href="{% url 'catalog:clothing-list'%}?{% query_transform request material_id=material.id %}">{{ material.name }}</a>
+            </li>
+               {% else %}
+            <li class="list-inline-item badge bg-gradient-light text-dark m-0">
+              <a href="{% url 'catalog:clothing-list'%}?{% query_transform request material_id=material.id %}">{{ material.name }}</a>
+            </li>
+            {% endif %}
           {% endfor %}
     </ul>
-
       <div class="row row-cols-1 row-cols-md-4 g-4 ">
 
 

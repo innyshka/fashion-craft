@@ -219,6 +219,18 @@ class ClothingListView(LoginRequiredMixin, generic.ListView):
         designer_list = Designer.objects.all()
         context["designer_list"] = designer_list
 
+        selected_clothing_type_id = self.request.GET.get("clothing_type_id", "")
+        if selected_clothing_type_id:
+            context["selected_clothing_type_id"] = int(selected_clothing_type_id)
+
+        selected_designer_id = self.request.GET.get("designer_id", "")
+        if selected_designer_id:
+            context["selected_designer_id"] = int(selected_designer_id)
+
+        selected_material_id = self.request.GET.get("material_id", "")
+        if selected_material_id:
+            context["selected_material_id"] = int(selected_material_id)
+
         return context
 
     def get_queryset(self) -> Clothing:
