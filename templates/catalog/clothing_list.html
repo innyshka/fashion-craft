@@ -1,0 +1,135 @@
+{% extends 'layouts/base-presentation.html' %}
+{% load query_transform %}
+{% block title %} Clothes {% endblock title %}
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} clothes-page {% endblock body_class %}
+
+
+{% block content %}
+    <header class="header-2">
+    <div class="page-header section-height-50 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/bg2.jpg')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+
+            <h1 class="text-white pt-3 mt-n5">
+              Clothes List
+            </h1>
+            <a href="{% url 'catalog:clothing-create' %}" class="btn btn-primary link-to-page">
+      Create new
+            </a>
+
+          </div>
+        </div>
+      </div>
+      <div class="position-absolute w-100 z-index-1 bottom-0">
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+          <defs>
+            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+          </defs>
+          <g class="moving-waves">
+            <use xlink:href="#gentle-wave" x="48" y="-1" fill="rgba(255,255,255,0.40" />
+            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.35)" />
+            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.25)" />
+            <use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(255,255,255,0.20)" />
+            <use xlink:href="#gentle-wave" x="48" y="13" fill="rgba(255,255,255,0.15)" />
+            <use xlink:href="#gentle-wave" x="48" y="16" fill="rgba(255,255,255,0.95" />
+          </g>
+        </svg>
+      </div>
+
+    </div>
+  </header>
+
+
+  <section class="pt-3 pb-4 " id="count-stats" >
+
+    <div class="container">
+    {% include "includes/search_form.html" %}
+    <h4> Choose Clothing Type</h4>
+    <ul class="list-inline widget-list-inline">
+    {% for clothing_type in clothing_type_list %}
+    {% if selected_clothing_type_id == clothing_type.id %}
+        <li class="list-inline-item badge bg-primary text-white m-0">
+            <a href="{% url 'catalog:clothing-list'%}?{% query_transform request clothing_type_id=clothing_type.id %}">{{ clothing_type.name }}</a>
+        </li>
+    {% else %}
+        <li class="list-inline-item badge bg-gradient-light text-dark m-0">
+            <a href="{% url 'catalog:clothing-list'%}?{% query_transform request clothing_type_id=clothing_type.id %}">{{ clothing_type.name }}</a>
+        </li>
+    {% endif %}
+    {% endfor %}
+
+     <h4> Choose Designer</h4>
+    <ul class="list-inline widget-list-inline">
+    {% for designer in designer_list %}
+    {% if selected_designer_id == designer.id %}
+        <li class="list-inline-item badge bg-primary text-white m-0">
+            <a href="{% url 'catalog:clothing-list'%}?{% query_transform request designer_id=designer.id %}">{{ designer.pseudonym }}</a>
+        </li>
+    {% else %}
+        <li class="list-inline-item badge bg-gradient-light text-dark m-0">
+            <a href="{% url 'catalog:clothing-list'%}?{% query_transform request designer_id=designer.id %}">{{ designer.pseudonym }}</a>
+        </li>
+    {% endif %}
+    {% endfor %}
+    <h4> Choose Materials</h4>
+    <ul class="list-inline widget-list-inline">
+          {% for material in material_list %}
+            {% if selected_material_id == material.id %}
+            <li class="list-inline-item badge bg-primary text-white m-0">
+              <a href="{% url 'catalog:clothing-list'%}?{% query_transform request material_id=material.id %}">{{ material.name }}</a>
+            </li>
+               {% else %}
+            <li class="list-inline-item badge bg-gradient-light text-dark m-0">
+              <a href="{% url 'catalog:clothing-list'%}?{% query_transform request material_id=material.id %}">{{ material.name }}</a>
+            </li>
+            {% endif %}
+          {% endfor %}
+    </ul>
+      <div class="row row-cols-1 row-cols-md-4 g-4 ">
+
+
+        {% if clothing_list %}
+        {% for clothing in clothing_list %}
+        <div class="col">
+          <div class="card shadow-lg">
+
+              <a href="{% url "catalog:clothing-detail" pk=clothing.id %}">
+
+                <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1"  >
+              <div class="d-block blur-shadow-image">
+                {% if clothing.image %}
+                <img src="{{ clothing.image.url }}" alt="{{ clothing.name }}"  class="img-fluid shadow rounded-3" style="height: 200px; width: 100%; object-fit: cover; ">
+                {% else %}
+                  <img src="{{ ASSETS_ROOT }}/img/defoult_clothes.jpg" alt="{{ clothing.name }}"  class="img-fluid shadow rounded-3" style="height: 200px; width: 100%; object-fit: cover; ">
+                  {%  endif %}
+                  </div>
+              <div class="colored-shadow" style="background-image: url(&quot;https://images.unsplash.com/photo-1604446062885-9f29f136fe87?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=3300&amp;q=80&quot;);"></div>
+            </div>
+              </a>
+
+
+            <div class="card-body">
+              <a href="{% url "catalog:clothing-detail" pk=clothing.id %}">
+                <h5 class="mt-2">
+                  {{ clothing.name }}
+                </h5>
+              </a>
+              <p><strong>Price:</strong> {{ clothing.price }} USD</p>
+
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      {% else %}
+    <p>There are no clothes in workshop</p>
+  {% endif %}
+
+      </div>
+
+    </div>
+  </section>
+
+{% endblock content%}

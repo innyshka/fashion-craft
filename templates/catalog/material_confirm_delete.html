@@ -1,0 +1,53 @@
+{% extends 'layouts/base-presentation.html' %}
+{% block title %} Delete Material {% endblock title %}
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} material-page {% endblock body_class %}
+
+{% block content %}
+   <section>
+  <div class="page-header section-height-100 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/bg2.jpg')">
+  <div class="container py-4">
+    <div class="row">
+      <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
+        <div class="card d-flex justify-content-center p-4 shadow-lg">
+          <div class="text-center">
+            <h3 class="text-gradient text-primary">Delete Material</h3>
+            <p class="lead mt-3">Are you sure you want to delete the material: {{ material }}?</p>
+          </div>
+          <div class="card card-plain">
+            <form action="" method="post">
+              {% csrf_token  %}
+              <div class="row">
+                  <div class="col-md-12 text-center">
+                    <input class="btn btn-danger " type="submit" value="Yes, delete">
+                    <a href="{% url 'catalog:material-list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+                </div>
+
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="position-absolute w-100 z-index-1 bottom-0">
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+          <defs>
+            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+          </defs>
+          <g class="moving-waves">
+            <use xlink:href="#gentle-wave" x="48" y="-1" fill="rgba(255,255,255,0.40" />
+            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.35)" />
+            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.25)" />
+            <use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(255,255,255,0.20)" />
+            <use xlink:href="#gentle-wave" x="48" y="13" fill="rgba(255,255,255,0.15)" />
+            <use xlink:href="#gentle-wave" x="48" y="16" fill="rgba(255,255,255,0.95" />
+          </g>
+        </svg>
+      </div>
+
+    </div>
+</section>
+
+{% endblock %}
